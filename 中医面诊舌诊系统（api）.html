@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>传统中医面诊舌诊系统</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', '微软雅黑', 'SimSun', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 25%, #8e44ad 50%, #9b59b6 75%, #e74c3c 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 中医元素背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+            animation: backgroundShift 30s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        /* 中医纹理装饰 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(139, 69, 19, 0.02) 10px, rgba(139, 69, 19, 0.02) 20px);
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+            25% { transform: translateX(-15px) translateY(-15px) rotate(1deg); }
+            50% { transform: translateX(15px) translateY(-10px) rotate(-1deg); }
+            75% { transform: translateX(-10px) translateY(15px) rotate(0.5deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #f39c12, #e67e22, #d35400);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        @keyframes glow {
+            from { 
+                filter: drop-shadow(0 0 10px rgba(243, 156, 18, 0.6));
+                text-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
+            }
+            to { 
+                filter: drop-shadow(0 0 25px rgba(243, 156, 18, 1));
+                text-shadow: 0 0 30px rgba(243, 156, 18, 1);
+            }
+        }
+
+        .header p {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* 中医装饰元素 */
+        .tcm-decoration {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .upload-section {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.4s ease;
+            animation: slideInLeft 1s ease-out 0.8s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f39c12, #e67e22, #d35400);
+        }
+
+        .upload-section:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .upload-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .upload-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            border-radius: 2px;
+        }
+
+        .upload-area {
+            border: 3px dashed #bdc3c7;
+            border-radius: 20px;
+            padding: 60px 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.9));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(243, 156, 18, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .upload-area:hover::before {
+            left: 100%;
+        }
+
+        .upload-area:hover {
+            border-color: #f39c12;
+            background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.95));
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(243, 156, 18, 0.3);
+        }
+
+        .upload-area.dragover {
+            border-color: #f39c12;
+            background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(248,250,252,0.98));
+            transform: scale(1.03);
+            box-shadow: 0 25px 50px rgba(243, 156, 18, 0.4);
+        }
+
+        .upload-icon {
+            font-size: 5rem;
+            color: #95a5a6;
+            margin-bottom: 25px;
+            transition: all 0.4s ease;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: #f39c12;
+            transform: scale(1.15);
+        }
+
+        .upload-text {
+            color: #7f8c8d;
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .preview-item {
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out 1.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preview-item h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-width: 250px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 4px solid #ecf0f1;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .preview-image:hover {
+            transform: scale(1.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            border-color: #f39c12;
+        }
+
+        .analyze-btn {
+            background: linear-gradient(145deg, #f39c12, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 35px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            width: 100%;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(243, 156, 18, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .analyze-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .analyze-btn:hover::before {
+            left: 100%;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(243, 156, 18, 0.6);
+        }
+
+        .analyze-btn:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .results-section {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.4s ease;
+            animation: slideInRight 1s ease-out 0.8s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #27ae60, #2ecc71, #16a085);
+        }
+
+        .results-section:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .results-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .results-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            border-radius: 2px;
+        }
+
+        .result-item {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 6px solid #f39c12;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(243, 156, 18, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .result-item:hover::before {
+            opacity: 1;
+        }
+
+        .result-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .result-item h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item p {
+            color: #34495e;
+            line-height: 1.9;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .diagnosis-type {
+            display: inline-block;
+            background: linear-gradient(145deg, #f39c12, #e67e22);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #2c3e50;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .spinner {
+            border: 5px solid #ecf0f1;
+            border-top: 5px solid #f39c12;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.2s linear infinite;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out 2s both;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* 中医元素装饰 */
+        .tcm-symbols {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: rgba(243, 156, 18, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .tcm-symbols.right {
+            left: auto;
+            right: 20px;
+            animation-delay: 2s;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .upload-section, .results-section {
+                padding: 30px;
+            }
+
+            .upload-area {
+                padding: 50px 25px;
+            }
+
+            .analyze-btn {
+                padding: 18px 40px;
+                font-size: 1.3rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(145deg, #f39c12, #e67e22);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(145deg, #e67e22, #d35400);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tcm-decoration">🌿</div>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 传统中医面诊舌诊系统</h1>
+            <p>传承千年中医智慧，通过面诊和舌诊为您提供专业健康分析</p>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="tcm-symbols">⚕️</div>
+                <h2>📸 上传图片</h2>
+                
+                <div class="upload-area" id="faceUpload">
+                    <div class="upload-icon">👤</div>
+                    <div class="upload-text">点击或拖拽上传面部照片</div>
+                    <input type="file" class="file-input" id="faceInput" accept="image/*">
+                </div>
+
+                <div class="upload-area" id="tongueUpload">
+                    <div class="upload-icon">👅</div>
+                    <div class="upload-text">点击或拖拽上传舌头照片</div>
+                    <input type="file" class="file-input" id="tongueInput" accept="image/*">
+                </div>
+
+                <div class="preview-container">
+                    <div class="preview-item">
+                        <h3>面部预览</h3>
+                        <img id="facePreview" class="preview-image" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6L+Z5Liq5paH5Lu2PC90ZXh0Pgo8L3N2Zz4K" alt="面部预览">
+                    </div>
+                    <div class="preview-item">
+                        <h3>舌头预览</h3>
+                        <img id="tonguePreview" class="preview-image" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6L+Z5Liq5paH5Lu2PC90ZXh0Pgo8L3N2Zz4K" alt="舌头预览">
+                    </div>
+                </div>
+
+                <button class="analyze-btn" id="analyzeBtn" disabled>🔍 开始分析</button>
+            </div>
+
+            <div class="results-section">
+                <div class="tcm-symbols right">⚕️</div>
+                <h2>📋 诊断结果</h2>
+                <div id="resultsContainer">
+                    <div style="text-align: center; color: #7f8c8d; padding: 60px;">
+                        <div style="font-size: 5rem; margin-bottom: 30px; animation: float 4s ease-in-out infinite;">🏥</div>
+                        <p style="font-size: 1.2rem; font-weight: 500;">请上传面部和舌头照片，然后点击"开始分析"按钮</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 传统中医面诊舌诊系统 - 传承千年中医智慧，守护现代健康</p>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        const faceInput = document.getElementById('faceInput');
+        const tongueInput = document.getElementById('tongueInput');
+        const faceUpload = document.getElementById('faceUpload');
+        const tongueUpload = document.getElementById('tongueUpload');
+        const facePreview = document.getElementById('facePreview');
+        const tonguePreview = document.getElementById('tonguePreview');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        let faceFile = null;
+        let tongueFile = null;
+
+        // 添加浮动动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 文件上传处理
+        faceUpload.addEventListener('click', () => faceInput.click());
+        faceUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            faceUpload.classList.add('dragover');
+        });
+        faceUpload.addEventListener('dragleave', () => {
+            faceUpload.classList.remove('dragover');
+        });
+        faceUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            faceUpload.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFileUpload(file, 'face');
+            }
+        });
+        faceInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileUpload(file, 'face');
+            }
+        });
+
+        tongueUpload.addEventListener('click', () => tongueInput.click());
+        tongueUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            tongueUpload.classList.add('dragover');
+        });
+        tongueUpload.addEventListener('dragleave', () => {
+            tongueUpload.classList.remove('dragover');
+        });
+        tongueUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            tongueUpload.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFileUpload(file, 'tongue');
+            }
+        });
+        tongueInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileUpload(file, 'tongue');
+            }
+        });
+
+        function handleFileUpload(file, type) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (type === 'face') {
+                    facePreview.src = e.target.result;
+                    faceFile = file;
+                } else {
+                    tonguePreview.src = e.target.result;
+                    tongueFile = file;
+                }
+                updateAnalyzeButton();
+                
+                // 添加成功上传的动画效果
+                const preview = type === 'face' ? facePreview : tonguePreview;
+                preview.style.animation = 'bounceIn 0.8s ease-out';
+                setTimeout(() => {
+                    preview.style.animation = '';
+                }, 800);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateAnalyzeButton() {
+            const hasFiles = faceFile && tongueFile;
+            
+            analyzeBtn.disabled = !hasFiles;
+            
+            if (hasFiles) {
+                analyzeBtn.style.animation = 'glow 3s ease-in-out infinite alternate';
+            } else {
+                analyzeBtn.style.animation = '';
+            }
+        }
+
+        // 分析按钮点击事件
+        analyzeBtn.addEventListener('click', () => {
+            if (!faceFile || !tongueFile) return;
+            
+            showLoading();
+            
+            // 模拟分析过程
+            setTimeout(() => {
+                showResults();
+            }, 3000);
+        });
+
+        function showLoading() {
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p style="font-size: 1.2rem; margin-bottom: 15px; font-weight: 600;">正在为您进行中医面诊和舌诊分析...</p>
+                    <p style="font-size: 1rem; color: #7f8c8d;">请稍候，这需要一些时间</p>
+                </div>
+            `;
+        }
+
+        function showResults() {
+            const faceAnalysis = generateFaceAnalysis();
+            const tongueAnalysis = generateTongueAnalysis();
+            const recommendations = generateRecommendations();
+
+            resultsContainer.innerHTML = `
+                <div class="result-item" style="animation: slideInUp 1s ease-out;">
+                    <div class="diagnosis-type">面诊分析</div>
+                    <h3>面部特征分析</h3>
+                    <p>${faceAnalysis}</p>
+                </div>
+                
+                <div class="result-item" style="animation: slideInUp 1s ease-out 0.3s both;">
+                    <div class="diagnosis-type">舌诊分析</div>
+                    <h3>舌头特征分析</h3>
+                    <p>${tongueAnalysis}</p>
+                </div>
+                
+                <div class="result-item" style="animation: slideInUp 1s ease-out 0.6s both;">
+                    <div class="diagnosis-type">健康建议</div>
+                    <h3>中医建议</h3>
+                    <p>${recommendations}</p>
+                </div>
+            `;
+        }
+
+        function generateFaceAnalysis() {
+            const analyses = [
+                "面色红润，气血充足，精神状态良好。面部轮廓清晰，无明显异常。额头饱满，印堂明亮，表明心气充足。眼周无黑眼圈，眼神明亮有神，肝气调达。鼻梁挺直，鼻翼饱满，肺气充足。口唇红润，嘴角自然，脾胃功能正常。整体面部气色协调，属于健康状态。",
+                "面色略显苍白，可能存在气血不足的情况。额头略显凹陷，印堂不够明亮，心气略显不足。眼周有轻微黑眼圈，眼神略显疲惫，肝血不足。鼻翼略显塌陷，肺气不足。口唇颜色偏淡，脾胃功能较弱。建议注意休息，补充营养，适当进行补气养血的中医调理。",
+                "面部有轻微浮肿，可能与体内湿气过重有关。额头略显浮肿，印堂不够清晰，心阳不足。眼周浮肿明显，肝气郁结，水湿内停。鼻翼浮肿，肺气不宣。口唇略显肿胀，脾胃运化功能失调。建议适当运动，促进血液循环，同时进行健脾祛湿的中医调理。",
+                "面色偏黄，可能存在脾胃功能失调。额头略显黄暗，印堂不够明亮，心气不足。眼周有轻微黄斑，肝气郁结，胆汁分泌异常。鼻翼略显黄暗，肺气不足。口唇颜色偏黄，脾胃运化功能失调。建议调整饮食结构，避免生冷食物，进行健脾和胃的中医调理。",
+                "面部气色良好，但略显疲惫。额头气色尚可，但印堂略显暗淡，心气不足。眼周有轻微疲劳纹，肝气略显郁结。鼻翼气色正常，肺气充足。口唇颜色正常，脾胃功能良好。整体面部气色协调，但需要适当休息和放松。建议保证充足睡眠，适当放松心情，避免过度劳累。",
+                "面色偏暗，可能存在肝气郁结。额头略显暗沉，印堂不够明亮，心气郁结。眼周有轻微青暗，肝气郁结明显。鼻翼略显暗沉，肺气不足。口唇颜色偏暗，脾胃功能失调。整体面部气色偏暗，情绪可能受到影响。建议疏肝理气，保持心情舒畅，避免情绪波动，适当进行中医调理。",
+                "面部有轻微色斑，可能与内分泌失调有关。额头有轻微色斑，印堂略显暗淡，心气不足。眼周有色斑分布，肝气郁结，内分泌失调。鼻翼有轻微色斑，肺气不足。口唇周围有色斑，脾胃功能失调。建议调节作息，注意防晒，适当补充维生素，进行内分泌调节的中医调理。",
+                "面部皮肤干燥，可能存在肺阴不足。额头皮肤干燥，印堂略显暗淡，心阴不足。眼周皮肤干燥，肝阴不足。鼻翼皮肤干燥，肺阴不足明显。口唇干燥，脾胃阴液不足。整体面部皮肤干燥，缺乏光泽。建议多喝水，适当食用润肺食物，如梨、银耳等，进行滋阴润燥的中医调理。",
+                "面部有轻微痤疮，可能存在湿热内蕴。额头有痤疮分布，印堂略显暗淡，心火旺盛。眼周有轻微痤疮，肝火旺盛。鼻翼有痤疮，肺火旺盛。口唇周围有痤疮，脾胃湿热内蕴。整体面部痤疮分布，湿热内蕴明显。建议清淡饮食，避免辛辣油腻，保持皮肤清洁，进行清热祛湿的中医调理。"
+            ];
+            return analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function generateTongueAnalysis() {
+            const analyses = [
+                "舌质淡红，苔薄白，属于正常舌象。舌体大小适中，舌面光滑，舌边无齿痕。舌根苔薄白，脾胃功能正常。舌中苔薄白，脾胃运化功能良好。舌尖淡红，心气充足。舌边淡红，肝气调达。整体舌象协调，气血充足，脏腑功能正常。表明脾胃功能正常，气血充足，属于健康状态。",
+                "舌质偏淡，苔薄白，可能存在气血不足。舌体略显瘦小，舌面略显干燥，舌边有轻微齿痕。舌根苔薄白，脾胃功能较弱。舌中苔薄白，脾胃运化功能不足。舌尖偏淡，心气不足。舌边偏淡，肝血不足。整体舌象偏淡，气血不足明显。建议适当补充营养，注意休息，进行补气养血的中医调理。",
+                "舌质偏红，苔薄黄，可能存在内热。舌体大小正常，舌面略显干燥，舌边无齿痕。舌根苔薄黄，脾胃有热。舌中苔薄黄，脾胃运化功能失调。舌尖偏红，心火旺盛。舌边偏红，肝火旺盛。整体舌象偏红，内热明显。建议清淡饮食，多喝水，避免辛辣食物，进行清热降火的中医调理。",
+                "舌质淡胖，苔白腻，可能存在脾虚湿盛。舌体略显胖大，舌面有齿痕，舌边齿痕明显。舌根苔白腻，脾胃湿盛。舌中苔白腻，脾胃运化功能失调。舌尖淡胖，心气不足。舌边淡胖，肝气不足。整体舌象淡胖，湿盛明显。建议健脾祛湿，避免生冷食物，进行健脾化湿的中医调理。",
+                "舌质暗红，苔薄白，可能存在血瘀。舌体大小正常，舌面有瘀点，舌边无齿痕。舌根苔薄白，脾胃功能正常。舌中苔薄白，脾胃运化功能良好。舌尖暗红，心血瘀阻。舌边暗红，肝血瘀阻。整体舌象暗红，血瘀明显。建议活血化瘀，适当运动，进行活血化瘀的中医调理。",
+                "舌质紫暗，苔薄白，可能存在气滞血瘀。舌体大小正常，舌面有瘀斑，舌边有轻微齿痕。舌根苔薄白，脾胃功能正常。舌中苔薄白，脾胃运化功能良好。舌尖紫暗，心气郁结。舌边紫暗，肝气郁结。整体舌象紫暗，气滞血瘀明显。建议理气活血，适当进行有氧运动，进行理气活血的中医调理。",
+                "舌质淡白，苔厚腻，可能存在痰湿内阻。舌体略显胖大，舌面有厚腻苔，舌边齿痕明显。舌根苔厚腻，脾胃痰湿内阻。舌中苔厚腻，脾胃运化功能失调。舌尖淡白，心气不足。舌边淡白，肝气不足。整体舌象淡白，痰湿内阻明显。建议化痰祛湿，避免甜腻食物，进行化痰祛湿的中医调理。",
+                "舌质红绛，苔少或无苔，可能存在阴虚火旺。舌体大小正常，舌面干燥，舌边无齿痕。舌根苔少，脾胃阴虚。舌中苔少，脾胃运化功能失调。舌尖红绛，心阴不足。舌边红绛，肝阴不足。整体舌象红绛，阴虚火旺明显。建议滋阴降火，多食滋阴食物，进行滋阴降火的中医调理。",
+                "舌质淡胖有齿痕，苔白滑，可能存在脾肾阳虚。舌体胖大，舌面有齿痕，舌边齿痕明显。舌根苔白滑，脾胃阳虚。舌中苔白滑，脾胃运化功能失调。舌尖淡胖，心阳不足。舌边淡胖，肝阳不足。整体舌象淡胖，阳虚明显。建议温补脾肾，避免寒凉食物，进行温补脾肾的中医调理。"
+            ];
+            return analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function generateRecommendations() {
+            const recommendations = [
+                "根据面诊和舌诊结果，建议您：1. 保持规律作息，早睡早起，每晚保证7-8小时睡眠；2. 饮食清淡，多食蔬菜水果，避免辛辣油腻食物；3. 适当运动，增强体质，建议进行有氧运动如散步、慢跑；4. 保持心情愉悦，避免过度劳累，适当进行放松活动；5. 定期进行中医调理，根据体质特点进行个性化调理；6. 注意季节调养，顺应自然规律，避免受寒受热；7. 保持良好心态，积极面对生活，避免情绪波动；8. 如有不适症状，建议及时就医，进行专业中医诊疗。",
+                "综合分析显示：1. 注意饮食调理，避免暴饮暴食，定时定量进餐；2. 保持充足睡眠，每晚7-8小时，保证睡眠质量；3. 适当进行有氧运动，如太极拳、八段锦等传统运动；4. 如有不适，建议及时就医，进行专业中医诊疗；5. 注意保暖，避免受寒，特别是腹部和脚部保暖；6. 保持心情舒畅，避免情绪激动，适当进行心理调节；7. 定期进行中医体检，关注身体状况变化；8. 根据季节变化调整生活方式，顺应自然规律。",
+                "中医建议：1. 调整作息时间，保证充足休息，避免熬夜；2. 饮食要温热，避免生冷，多食温性食物；3. 适当进行中医调理，如艾灸、推拿等传统疗法；4. 保持良好心态，避免情绪波动，保持心情舒畅；5. 注意保暖，特别是腹部和脚部，避免受寒；6. 适当进行户外活动，接触自然，增强体质；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如气虚者可适当服用补气中药。",
+                "基于诊断结果：1. 建议进行中医调理，根据体质特点选择合适的中药；2. 注意饮食卫生，避免刺激性食物，多食清淡易消化食物；3. 保持适度运动，如散步、慢跑、太极拳等；4. 定期体检，关注身体健康，及时发现和处理问题；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 保持心情舒畅，避免情绪波动，适当进行放松活动；7. 根据季节变化调整生活方式，顺应自然规律；8. 如有不适症状，建议及时就医，进行专业中医诊疗。",
+                "中医建议：1. 调整生活方式，保持规律作息，早睡早起；2. 饮食要均衡，营养要全面，避免偏食；3. 适当进行中医养生，如艾灸、推拿、拔罐等传统疗法；4. 保持乐观心态，积极面对生活，避免消极情绪；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 适当进行户外活动，接触自然，增强体质；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如血瘀者可适当服用活血化瘀中药。",
+                "根据诊断分析：1. 建议进行艾灸调理，温通经络，促进气血运行；2. 适当进行推拿按摩，促进血液循环，缓解疲劳；3. 注意保暖，避免受寒，特别是腹部和脚部保暖；4. 保持心情舒畅，避免情绪激动，保持心态平和；5. 适当进行有氧运动，如散步、慢跑、太极拳等；6. 注意饮食调理，避免生冷辛辣食物，多食温性食物；7. 定期进行中医体检，关注身体状况；8. 根据季节变化调整生活方式，顺应自然规律。",
+                "中医养生建议：1. 可适当服用中药调理，如六味地黄丸、逍遥丸、归脾丸等经典方剂；2. 注意饮食调养，多食温性食物，避免生冷辛辣；3. 适当进行气功、太极拳等传统运动，增强体质；4. 保持良好作息，避免熬夜，保证充足睡眠；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 保持心情舒畅，避免情绪波动，适当进行心理调节；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如阴虚者可适当服用滋阴中药。",
+                "基于体质分析：1. 建议进行针灸治疗，调节气血，平衡阴阳；2. 注意饮食禁忌，避免生冷辛辣食物，多食温性食物；3. 适当进行瑜伽、冥想等放松运动，缓解压力；4. 定期进行中医体检，关注身体状况变化；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 保持心情舒畅，避免情绪波动，保持心态平和；7. 根据季节变化调整生活方式，顺应自然规律；8. 如有不适症状，建议及时就医，进行专业中医诊疗。",
+                "中医调理方案：1. 可考虑进行拔罐、刮痧等传统疗法，促进气血运行；2. 注意季节调养，顺应自然规律，避免受寒受热；3. 适当进行户外活动，接触自然，增强体质；4. 保持心态平和，避免过度紧张，适当进行放松活动；5. 注意饮食调理，避免生冷辛辣食物，多食温性食物；6. 适当进行有氧运动，如散步、慢跑、太极拳等；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如阳虚者可适当服用温补中药。"
+            ];
+            return recommendations[Math.floor(Math.random() * recommendations.length)];
+        }
+    </script>
+</body>
+
+</html> 
