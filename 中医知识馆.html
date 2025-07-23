@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中药知识馆</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ma Shan Zheng', 'Microsoft YaHei', '微软雅黑', 'SimSun', serif;
+            background: linear-gradient(135deg, #e8e3d3 0%, #b7d7b0 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 16px 32px 16px;
+            background: rgba(255,255,245,0.98);
+            border-radius: 24px;
+            box-shadow: 0 4px 32px rgba(176,58,46,0.06);
+            border: 2.5px solid #e5d7b5;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            color: #b03a2e;
+            font-family: 'Ma Shan Zheng', serif;
+            font-size: 2.3rem;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            display: block;
+            margin: 12px auto 0 auto;
+            width: 220px;
+            height: 18px;
+            background: url('data:image/svg+xml;utf8,<svg width="220" height="18" viewBox="0 0 220 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10,12 Q40,2 80,12 T150,12 T210,12" stroke="%23bfa36f" stroke-width="2" fill="none" opacity="0.22"/><path d="M60,16 Q70,10 80,16 Q90,22 100,16" stroke="%23bfa36f" stroke-width="1.1" fill="none" opacity="0.15"/><path d="M150,16 Q160,10 170,16 Q180,22 190,16" stroke="%23bfa36f" stroke-width="1.1" fill="none" opacity="0.15"/></svg>') center/contain no-repeat;
+        }
+        .herb-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+        }
+        .herb-card {
+            background: linear-gradient(135deg, #f5e9d4 80%, #e8e3d3 100%);
+            border-radius: 16px;
+            border: 2px solid #bfa36f;
+            box-shadow: 0 2px 12px #bfa36f22;
+            width: 220px;
+            padding: 22px 18px 18px 18px;
+            text-align: center;
+            font-family: 'Ma Shan Zheng', serif;
+            color: #3e5c3a;
+            position: relative;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .herb-card:hover {
+            box-shadow: 0 8px 24px #bfa36f33;
+            transform: translateY(-4px) scale(1.03);
+        }
+        .herb-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .herb-name {
+            font-size: 1.3rem;
+            color: #b03a2e;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .herb-effect {
+            font-size: 1.05rem;
+            color: #3e5c3a;
+            line-height: 1.7;
+        }
+        .back-btn {
+            display: block;
+            margin: 36px auto 0 auto;
+            font-family: 'Ma Shan Zheng', serif;
+            font-size: 1.1rem;
+            padding: 10px 36px;
+            border-radius: 22px;
+            border: 2px solid #bfa36f;
+            background: linear-gradient(90deg,#f5e9d4 60%,#e5d7b5 100%);
+            color: #b03a2e;
+            box-shadow: 0 2px 12px #bfa36f22;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            background: linear-gradient(90deg,#e5d7b5 60%,#f5e9d4 100%);
+            color: #3e5c3a;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部祥云SVG装饰 -->
+    <div style="width:100vw;height:60px;position:absolute;top:0;left:0;z-index:0;pointer-events:none;">
+      <svg width="100%" height="60" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 Q240,10 480,40 T960,40 T1440,40" stroke="#e5d7b5" stroke-width="2.2" fill="none" opacity="0.13"/>
+        <path d="M120,50 Q360,25 720,50 T1320,50 T1440,50" stroke="#bfa36f" stroke-width="1.1" fill="none" opacity="0.09"/>
+        <path d="M220,35 Q225,30 230,35 Q235,40 240,35" stroke="#bfa36f" stroke-width="1.2" fill="none" opacity="0.13"/>
+        <path d="M340,25 Q343,22 346,25 Q349,28 352,25" stroke="#bfa36f" stroke-width="1" fill="none" opacity="0.10"/>
+      </svg>
+    </div>
+    <!-- 左侧祥云SVG装饰 -->
+    <div style="position:absolute;top:120px;left:0;width:60px;height:180px;z-index:0;pointer-events:none;">
+      <svg width="60" height="180" viewBox="0 0 60 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10,160 Q30,120 50,140" stroke="#bfa36f" stroke-width="1.5" fill="none" opacity="0.10"/>
+        <path d="M20,100 Q30,90 40,100" stroke="#bfa36f" stroke-width="1" fill="none" opacity="0.08"/>
+      </svg>
+    </div>
+    <!-- 右侧祥云SVG装饰 -->
+    <div style="position:absolute;top:220px;right:0;width:60px;height:180px;z-index:0;pointer-events:none;">
+      <svg width="60" height="180" viewBox="0 0 60 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,160 Q30,120 10,140" stroke="#bfa36f" stroke-width="1.5" fill="none" opacity="0.10"/>
+        <path d="M40,100 Q30,90 20,100" stroke="#bfa36f" stroke-width="1" fill="none" opacity="0.08"/>
+      </svg>
+    </div>
+    <!-- 底部祥云SVG装饰 -->
+    <div style="width:100vw;height:60px;position:absolute;bottom:0;left:0;z-index:0;pointer-events:none;">
+      <svg width="100%" height="60" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 Q240,50 480,20 T960,20 T1440,20" stroke="#e5d7b5" stroke-width="2.2" fill="none" opacity="0.13"/>
+        <path d="M120,10 Q360,35 720,10 T1320,10 T1440,10" stroke="#bfa36f" stroke-width="1.1" fill="none" opacity="0.09"/>
+        <path d="M220,25 Q225,30 230,25 Q235,20 240,25" stroke="#bfa36f" stroke-width="1.2" fill="none" opacity="0.13"/>
+        <path d="M340,35 Q343,38 346,35 Q349,32 352,35" stroke="#bfa36f" stroke-width="1" fill="none" opacity="0.10"/>
+      </svg>
+    </div>
+    <div class="container">
+        <div class="header">中药知识馆</div>
+        <div class="herb-list">
+            <!-- 每个herb-card右上角小祥云 -->
+            <style>
+            .herb-card::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 8px;
+                right: 10px;
+                width: 36px;
+                height: 16px;
+                background: url('data:image/svg+xml;utf8,<svg width="36" height="16" viewBox="0 0 36 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2,12 Q8,2 18,12 T34,12" stroke="%23bfa36f" stroke-width="1.2" fill="none" opacity="0.13"/></svg>') center/contain no-repeat;
+            }
+            </style>
+            <div class="herb-card">
+                <div class="herb-icon">🌿</div>
+                <div class="herb-name">人参</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>大补元气，复脉固脱，补脾益肺，生津安神。<br>
+                    <b>适用症状：</b>体虚欲脱、气短乏力、脉微欲绝、脾肺虚弱、津伤口渴、心悸失眠。<br>
+                    <b>常见用法：</b>煎汤、泡茶、炖汤、入药膳。<br>
+                    <b>注意事项：</b>不宜与萝卜、浓茶同食，感冒发热、实热者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🍂</div>
+                <div class="herb-name">当归</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>补血活血，调经止痛，润肠通便。<br>
+                    <b>适用症状：</b>血虚萎黄、月经不调、痛经、闭经、跌打损伤、肠燥便秘。<br>
+                    <b>常见用法：</b>煎汤、炖肉、泡酒、入药膳。<br>
+                    <b>注意事项：</b>孕妇及月经过多者慎用，湿热内盛者忌服。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🍃</div>
+                <div class="herb-name">薄荷</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>疏散风热，清利头目，利咽，透疹，疏肝行气。<br>
+                    <b>适用症状：</b>风热感冒、头痛目赤、咽喉肿痛、麻疹初起、胸闷胁痛。<br>
+                    <b>常见用法：</b>泡茶、煎汤、外用、入膏方。<br>
+                    <b>注意事项：</b>气虚多汗、阴虚血燥者慎用，孕妇慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🍄</div>
+                <div class="herb-name">灵芝</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>补气安神，止咳平喘，益精补脑。<br>
+                    <b>适用症状：</b>失眠多梦、心悸健忘、体虚乏力、咳嗽气喘。<br>
+                    <b>常见用法：</b>煎汤、泡茶、炖汤、入药膳。<br>
+                    <b>注意事项：</b>体质偏热、感冒发热者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🌱</div>
+                <div class="herb-name">艾草</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>温经止血，散寒止痛，安胎，祛湿止痒。<br>
+                    <b>适用症状：</b>月经不调、宫寒腹痛、崩漏下血、湿疹瘙痒、胎动不安。<br>
+                    <b>常见用法：</b>艾灸、泡脚、煎汤、外敷。<br>
+                    <b>注意事项：</b>阴虚火旺、孕妇慎用，过敏体质者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🌰</div>
+                <div class="herb-name">枸杞</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>滋补肝肾，益精明目，润肺。<br>
+                    <b>适用症状：</b>肝肾阴虚、腰膝酸软、头晕目眩、视力减退、虚劳咳嗽。<br>
+                    <b>常见用法：</b>泡水、煲汤、煮粥、入药膳。<br>
+                    <b>注意事项：</b>脾虚泄泻、感冒发热者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🌾</div>
+                <div class="herb-name">黄芪</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>补气升阳，固表止汗，利尿消肿，托毒生肌。<br>
+                    <b>适用症状：</b>气虚乏力、自汗、久泻脱肛、水肿、慢性溃疡不愈。<br>
+                    <b>常见用法：</b>煎汤、炖汤、泡茶、入药膳。<br>
+                    <b>注意事项：</b>实热、阴虚有热者慎用，感冒发热时不宜服用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🍊</div>
+                <div class="herb-name">陈皮</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>理气健脾，燥湿化痰。<br>
+                    <b>适用症状：</b>脘腹胀满、食少呕吐、咳嗽痰多。<br>
+                    <b>常见用法：</b>泡茶、煲汤、煎汤、入药膳。<br>
+                    <b>注意事项：</b>阴虚燥咳、气虚体弱者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🍄</div>
+                <div class="herb-name">茯苓</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>利水渗湿，健脾安神。<br>
+                    <b>适用症状：</b>小便不利、水肿、脾虚泄泻、心悸失眠。<br>
+                    <b>常见用法：</b>煎汤、煮粥、炖汤、入药膳。<br>
+                    <b>注意事项：</b>阴虚口渴、虚寒滑精者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🌰</div>
+                <div class="herb-name">川芎</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>活血行气，祛风止痛。<br>
+                    <b>适用症状：</b>头痛、风湿痹痛、月经不调、跌打损伤。<br>
+                    <b>常见用法：</b>煎汤、炖汤、泡酒、入药膳。<br>
+                    <b>注意事项：</b>孕妇慎用，月经过多及出血性疾病者忌服。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🍬</div>
+                <div class="herb-name">甘草</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>补脾益气，清热解毒，缓急止痛，调和诸药。<br>
+                    <b>适用症状：</b>脾胃虚弱、咳嗽、咽喉肿痛、胃痛腹痛、中毒。<br>
+                    <b>常见用法：</b>煎汤、泡茶、炖汤、入药膳。<br>
+                    <b>注意事项：</b>高血压、水肿、孕妇慎用，忌与甘遂、大戟、芫花同用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🥔</div>
+                <div class="herb-name">山药</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>补脾养胃，生津益肺，补肾涩精。<br>
+                    <b>适用症状：</b>脾虚食少、久泻、肺虚咳嗽、肾虚遗精、尿频。<br>
+                    <b>常见用法：</b>煮粥、炖汤、煎汤、入药膳。<br>
+                    <b>注意事项：</b>实热、湿热中阻者慎用。
+                </div>
+            </div>
+            <div class="herb-card">
+                <div class="herb-icon">🌼</div>
+                <div class="herb-name">菊花</div>
+                <div class="herb-effect">
+                    <b>主要功效：</b>疏风清热，平肝明目，解毒消肿。<br>
+                    <b>适用症状：</b>风热感冒、头痛眩晕、目赤肿痛、疮痈肿毒。<br>
+                    <b>常见用法：</b>泡茶、煎汤、入药膳。<br>
+                    <b>注意事项：</b>脾胃虚寒、阳虚体质者慎用。
+                </div>
+            </div>
+        </div>
+        <button class="back-btn" onclick="window.location.href='诊断系统（副本）.html'">返回诊断</button>
+    </div>
+</body>
+</html> 
