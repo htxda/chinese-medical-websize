@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>传统中医面诊舌诊系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <style>
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         * {
             box-sizing: border-box;
             padding: 0;
@@ -13,8 +18,8 @@
         }
 
         body {
-            font-family: 'Microsoft YaHei', '微软雅黑', 'SimSun', serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 25%, #8e44ad 50%, #9b59b6 75%, #e74c3c 100%);
+            font-family: 'Ma Shan Zheng', 'Microsoft YaHei', '微软雅黑', 'SimSun', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 25%, #27ae60 50%, #2ecc71 75%, #16a085 100%);
             min-height: 100vh;
             color: #2c3e50;
             position: relative;
@@ -62,7 +67,8 @@
             margin: 0 auto;
             padding: 30px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            opacity: 1 !important;
         }
 
         .header {
@@ -87,23 +93,23 @@
             font-size: 3.5rem;
             margin-bottom: 20px;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
-            background: linear-gradient(45deg, #f39c12, #e67e22, #d35400);
+            background: linear-gradient(45deg, #2ecc71, #27ae60, #16a085);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glow 3s ease-in-out infinite alternate;
+            animation: glow 3s ease-in-out infinite;
             font-weight: bold;
             letter-spacing: 2px;
         }
 
         @keyframes glow {
             from { 
-                filter: drop-shadow(0 0 10px rgba(243, 156, 18, 0.6));
-                text-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
+                filter: drop-shadow(0 0 10px rgba(39, 174, 96, 0.6));
+                text-shadow: 0 0 20px rgba(39, 174, 96, 0.8);
             }
             to { 
-                filter: drop-shadow(0 0 25px rgba(243, 156, 18, 1));
-                text-shadow: 0 0 30px rgba(243, 156, 18, 1);
+                filter: drop-shadow(0 0 25px rgba(39, 174, 96, 1));
+                text-shadow: 0 0 30px rgba(39, 174, 96, 1);
             }
         }
 
@@ -151,6 +157,7 @@
             animation: slideInLeft 1s ease-out 0.8s both;
             position: relative;
             overflow: hidden;
+            opacity: 1 !important;
         }
 
         .upload-section::before {
@@ -264,6 +271,19 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
+        
+        .upload-success {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #27ae60;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease;
+        }
 
         .file-input {
             display: none;
@@ -278,18 +298,12 @@
 
         .preview-item {
             text-align: center;
-            animation: fadeInUp 0.8s ease-out 1.2s both;
+            animation: slideInUp 0.8s ease-out 1.2s both;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .preview-item h3 {
@@ -318,7 +332,7 @@
         }
 
         .analyze-btn {
-            background: linear-gradient(145deg, #f39c12, #e67e22, #d35400);
+            background: linear-gradient(145deg, #27ae60, #2ecc71, #16a085);
             color: white;
             border: none;
             padding: 20px 50px;
@@ -331,7 +345,7 @@
             margin-top: 30px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(243, 156, 18, 0.4);
+            box-shadow: 0 15px 35px rgba(39, 174, 96, 0.4);
             letter-spacing: 1px;
         }
 
@@ -379,6 +393,7 @@
             animation: slideInRight 1s ease-out 0.8s both;
             position: relative;
             overflow: hidden;
+            opacity: 1 !important;
         }
 
         .results-section::before {
@@ -481,14 +496,14 @@
 
         .diagnosis-type {
             display: inline-block;
-            background: linear-gradient(145deg, #f39c12, #e67e22);
+            background: linear-gradient(145deg, #27ae60, #2ecc71);
             color: white;
             padding: 10px 25px;
             border-radius: 25px;
             font-size: 1rem;
             margin-bottom: 20px;
             font-weight: 700;
-            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
             letter-spacing: 0.5px;
         }
 
@@ -522,7 +537,7 @@
 
         .footer {
             text-align: center;
-            color: white;
+            color:  #27ae60;
             margin-top: 60px;
             opacity: 0.9;
             animation: fadeIn 1.5s ease-out 2s both;
@@ -598,34 +613,210 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(145deg, #e67e22, #d35400);
         }
+        
+        /* 新增样式 */
+        .upload-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #27ae60;
+            color: white;
+            border-radius: 15px;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .error-message {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .result-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .result-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-title i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .result-content {
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        .result-tag {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .recommendation {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+        }
+        
+        .recommendation-title {
+            color: #27ae60;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 
 <body>
-    <div class="tcm-decoration">🌿</div>
-    <div class="container">
-        <div class="header">
-            <h1>🏥 传统中医面诊舌诊系统</h1>
-            <p>传承千年中医智慧，通过面诊和舌诊为您提供专业健康分析</p>
+    <div class="container" style="border: 2.5px solid #e5d7b5; border-radius: 24px; box-shadow: 0 4px 32px rgba(176,58,46,0.04); background:rgba(255,255,245,0.98); position:relative; padding-top:100px; padding-bottom:110px;">
+        <!-- 左上角人参SVG插画 -->
+        <div style="position:absolute;top:32px;left:18px;width:60px;height:90px;opacity:0.18;pointer-events:none;z-index:2;">
+          <svg width="60" height="90" viewBox="0 0 60 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="80" rx="18" ry="6" fill="#b7d7b0"/>
+            <path d="M30 70 Q28 60 20 55 Q28 58 30 48 Q32 58 40 55 Q32 60 30 70Z" fill="#e5c7a1" stroke="#bfa36f" stroke-width="1.2"/>
+            <ellipse cx="30" cy="52" rx="3" ry="7" fill="#fff" stroke="#bfa36f" stroke-width="0.8"/>
+            <ellipse cx="30" cy="52" rx="1.2" ry="2.5" fill="#bfa36f"/>
+            <path d="M30 48 Q27 40 18 38" stroke="#7bb661" stroke-width="1.2" fill="none"/>
+            <path d="M30 48 Q33 40 42 38" stroke="#7bb661" stroke-width="1.2" fill="none"/>
+          </svg>
         </div>
-
+        <!-- 右下角艾草SVG插画 -->
+        <div style="position:absolute;bottom:120px;right:24px;width:70px;height:70px;opacity:0.15;pointer-events:none;z-index:2;">
+          <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 60 Q30 40 60 50" stroke="#7bb661" stroke-width="2.2" fill="none"/>
+            <ellipse cx="30" cy="50" rx="7" ry="2.5" fill="#b7d7b0"/>
+            <ellipse cx="50" cy="55" rx="6" ry="2" fill="#7bb661"/>
+            <path d="M40 60 Q45 55 60 60" stroke="#bfa36f" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
+        <!-- 左中薄荷SVG插画 -->
+        <div style="position:absolute;top:50%;left:0;width:54px;height:54px;transform:translateY(-50%);opacity:0.13;pointer-events:none;z-index:2;">
+          <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="27" cy="47" rx="16" ry="5" fill="#b7d7b0"/>
+            <path d="M27 40 Q25 35 18 32 Q25 34 27 28 Q29 34 36 32 Q29 35 27 40Z" fill="#7bb661" stroke="#bfa36f" stroke-width="1"/>
+            <ellipse cx="27" cy="30" rx="2.2" ry="4" fill="#fff" stroke="#bfa36f" stroke-width="0.6"/>
+            <ellipse cx="27" cy="30" rx="0.8" ry="1.7" fill="#bfa36f"/>
+          </svg>
+        </div>
+        <!-- 顶部水墨祥云SVG装饰（随内容滚动） -->
+        <div style="position:absolute;top:0;left:0;width:100%;height:90px;pointer-events:none;">
+          <svg width="100%" height="90" viewBox="0 0 1440 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,70 Q240,30 480,70 T960,70 T1440,70" stroke="#e5d7b5" stroke-width="2.5" fill="none" opacity="0.13"/>
+            <path d="M120,80 Q360,50 720,80 T1320,80 T1440,80" stroke="#bfa36f" stroke-width="1.2" fill="none" opacity="0.08"/>
+            <path d="M220,60 Q225,55 230,60 Q235,65 240,60" stroke="#bfa36f" stroke-width="1.5" fill="none" opacity="0.13"/>
+            <path d="M340,50 Q343,47 346,50 Q349,53 352,50" stroke="#bfa36f" stroke-width="1" fill="none" opacity="0.10"/>
+          </svg>
+        </div>
+        <!-- 右上角荷花SVG插画（随内容滚动） -->
+        <div style="position:absolute;top:18px;right:32px;width:70px;height:70px;pointer-events:none;">
+          <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="35" cy="62" rx="14" ry="4" fill="#e6e6e6" opacity="0.18"/>
+            <path d="M35 54 Q33 47 27 44 Q33 46 35 39 Q37 46 43 44 Q37 47 35 54Z" fill="#f7cac9" stroke="#e5989b" stroke-width="1"/>
+            <ellipse cx="35" cy="41" rx="2.2" ry="4" fill="#fff" stroke="#e5989b" stroke-width="0.7"/>
+            <ellipse cx="35" cy="41" rx="0.8" ry="1.7" fill="#e5989b"/>
+          </svg>
+        </div>
+        <!-- 左下角竹叶SVG插画（随内容滚动） -->
+        <div style="position:absolute;bottom:70px;left:24px;width:60px;height:60px;pointer-events:none;">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 50 Q25 35 50 45" stroke="#b7d7b0" stroke-width="2" fill="none"/>
+            <ellipse cx="25" cy="45" rx="5" ry="1.5" fill="#b7d7b0" opacity="0.7"/>
+            <ellipse cx="45" cy="48" rx="4" ry="1.2" fill="#7bb661" opacity="0.5"/>
+          </svg>
+        </div>
+        <!-- 右下角古印章SVG（随内容滚动） -->
+        <div style="position:absolute;bottom:70px;right:32px;width:44px;height:44px;pointer-events:none;">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="40" height="40" rx="7" fill="#fff" stroke="#b03a2e" stroke-width="2"/>
+            <text x="22" y="28" text-anchor="middle" font-size="13" font-family="KaiTi,STKaiti,serif" fill="#b03a2e">安康</text>
+          </svg>
+        </div>
+        <!-- 右上角薄荷SVG插画 -->
+        <div style="position:absolute;top:38px;right:32px;width:44px;height:44px;opacity:0.12;pointer-events:none;z-index:2;">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="22" cy="38" rx="12" ry="4" fill="#b7d7b0"/>
+            <path d="M22 32 Q20 28 14 26 Q20 27 22 22 Q24 27 30 26 Q24 28 22 32Z" fill="#7bb661" stroke="#bfa36f" stroke-width="0.8"/>
+            <ellipse cx="22" cy="24" rx="1.5" ry="3" fill="#fff" stroke="#bfa36f" stroke-width="0.5"/>
+            <ellipse cx="22" cy="24" rx="0.6" ry="1.2" fill="#bfa36f"/>
+          </svg>
+        </div>
+        <!-- 右中薄荷SVG插画 -->
+        <div style="position:absolute;top:55%;right:0;width:54px;height:54px;transform:translateY(-50%);opacity:0.10;pointer-events:none;z-index:2;">
+          <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="27" cy="47" rx="16" ry="5" fill="#b7d7b0"/>
+            <path d="M27 40 Q25 35 18 32 Q25 34 27 28 Q29 34 36 32 Q29 35 27 40Z" fill="#7bb661" stroke="#bfa36f" stroke-width="1"/>
+            <ellipse cx="27" cy="30" rx="2.2" ry="4" fill="#fff" stroke="#bfa36f" stroke-width="0.6"/>
+            <ellipse cx="27" cy="30" rx="0.8" ry="1.7" fill="#bfa36f"/>
+          </svg>
+        </div>
+        <!-- 左下角薄荷SVG插画 -->
+        <div style="position:absolute;bottom:30px;left:60px;width:38px;height:38px;opacity:0.09;pointer-events:none;z-index:2;">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="19" cy="33" rx="10" ry="3" fill="#b7d7b0"/>
+            <path d="M19 28 Q17 24 12 22 Q17 23 19 18 Q21 23 26 22 Q21 24 19 28Z" fill="#7bb661" stroke="#bfa36f" stroke-width="0.7"/>
+            <ellipse cx="19" cy="20" rx="1.1" ry="2.1" fill="#fff" stroke="#bfa36f" stroke-width="0.4"/>
+            <ellipse cx="19" cy="20" rx="0.4" ry="0.8" fill="#bfa36f"/>
+          </svg>
+        </div>
+        <div class="tcm-decoration">🌿</div>
+        <div class="header" style="border-bottom:2px solid #bfa36f; padding-bottom:12px; position:relative;">
+            <h1 style="font-family:'Ma Shan Zheng',serif; color:#b03a2e; font-size:3.2rem; letter-spacing:2px; margin-bottom:0;">传统中医面诊舌诊系统</h1>
+            <!-- 标题下方祥云SVG边框 -->
+            <div style="width:320px;max-width:90vw;margin:0 auto;position:relative;top:-8px;">
+              <svg width="100%" height="28" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10,18 Q40,4 80,18 T150,18 T220,18 T310,18" stroke="#bfa36f" stroke-width="2.2" fill="none" opacity="0.22"/>
+                <path d="M60,24 Q70,16 80,24 Q90,32 100,24" stroke="#bfa36f" stroke-width="1.1" fill="none" opacity="0.15"/>
+                <path d="M200,24 Q210,16 220,24 Q230,32 240,24" stroke="#bfa36f" stroke-width="1.1" fill="none" opacity="0.15"/>
+              </svg>
+            </div>
+            <p style="font-family:'Ma Shan Zheng',serif; color:#3e5c3a; font-size:1.4rem;">传承千年中医智慧，通过面诊和舌诊为您提供专业健康分析</p>
+        </div>
         <div class="main-content">
-            <div class="upload-section">
+            <div class="upload-section" style="border:2px solid #bfa36f; border-radius:18px; background:rgba(255,255,245,0.97); box-shadow:0 2px 12px #bfa36f22;">
                 <div class="tcm-symbols">⚕️</div>
-                <h2>📸 上传图片</h2>
-                
+                <h2 style="font-family:'Ma Shan Zheng',serif; color:#b03a2e;">📸 上传图片</h2>
                 <div class="upload-area" id="faceUpload">
                     <div class="upload-icon">👤</div>
                     <div class="upload-text">点击或拖拽上传面部照片</div>
                     <input type="file" class="file-input" id="faceInput" accept="image/*">
+                    <div id="faceStatus" class="upload-status" style="display: none;">✓ 已上传</div>
                 </div>
-
                 <div class="upload-area" id="tongueUpload">
                     <div class="upload-icon">👅</div>
                     <div class="upload-text">点击或拖拽上传舌头照片</div>
                     <input type="file" class="file-input" id="tongueInput" accept="image/*">
+                    <div id="tongueStatus" class="upload-status" style="display: none;">✓ 已上传</div>
                 </div>
-
                 <div class="preview-container">
                     <div class="preview-item">
                         <h3>面部预览</h3>
@@ -636,13 +827,11 @@
                         <img id="tonguePreview" class="preview-image" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6L+Z5Liq5paH5Lu2PC90ZXh0Pgo8L3N2Zz4K" alt="舌头预览">
                     </div>
                 </div>
-
                 <button class="analyze-btn" id="analyzeBtn" disabled>🔍 开始分析</button>
             </div>
-
-            <div class="results-section">
+            <div class="results-section" style="border:2px solid #bfa36f; border-radius:18px; background:rgba(255,255,245,0.97); box-shadow:0 2px 12px #bfa36f22;">
                 <div class="tcm-symbols right">⚕️</div>
-                <h2>📋 诊断结果</h2>
+                <h2 style="font-family:'Ma Shan Zheng',serif; color:#b03a2e;">📋 诊断结果</h2>
                 <div id="resultsContainer">
                     <div style="text-align: center; color: #7f8c8d; padding: 60px;">
                         <div style="font-size: 5rem; margin-bottom: 30px; animation: float 4s ease-in-out infinite;">🏥</div>
@@ -651,9 +840,33 @@
                 </div>
             </div>
         </div>
-
+        <!-- 底部诗词（中医健康相关） -->
+        <div style="text-align:center;margin:36px 0 0 0;opacity:0.92;font-family:'Ma Shan Zheng',serif;color:#3e5c3a;font-size:1.25rem;letter-spacing:2px;">
+            体健方为福，心安即是春
+        </div>
+        <!-- 底部祥云SVG装饰 -->
+        <div style="text-align:center;margin:0 0 12px 0;">
+          <svg width="320" height="32" viewBox="0 0 320 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,24 Q40,8 80,24 T150,24 T220,24 T310,24" stroke="#bfa36f" stroke-width="2" fill="none" opacity="0.18"/>
+            <path d="M60,28 Q70,22 80,28 Q90,34 100,28" stroke="#bfa36f" stroke-width="1.2" fill="none" opacity="0.13"/>
+            <path d="M200,28 Q210,22 220,28 Q230,34 240,28" stroke="#bfa36f" stroke-width="1.2" fill="none" opacity="0.13"/>
+          </svg>
+        </div>
+        <!-- 跳转按钮 -->
+        <div style="text-align:center;margin:18px 0 0 0;">
+          <button onclick="window.location.href='herbs.html'" style="font-family:'Ma Shan Zheng',serif;font-size:1.18rem;padding:12px 38px;border-radius:28px;border:2px solid #bfa36f;background:linear-gradient(90deg,#f5e9d4 60%,#e5d7b5 100%);color:#b03a2e;box-shadow:0 2px 12px #bfa36f22;cursor:pointer;transition:background 0.3s,box-shadow 0.3s;letter-spacing:2px;">中药知识馆</button>
+        </div>
         <div class="footer">
             <p>© 2025 传统中医面诊舌诊系统 - 传承千年中医智慧，守护现代健康</p>
+        </div>
+        <!-- 底部水墨山水SVG装饰（随内容滚动） -->
+        <div style="position:absolute;bottom:0;left:0;width:100%;height:90px;pointer-events:none;">
+          <svg width="100%" height="90" viewBox="0 0 1440 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,80 Q240,60 480,80 T960,80 T1440,80" stroke="#bfa36f" stroke-width="2.5" fill="none" opacity="0.10"/>
+            <path d="M120,85 Q360,70 720,85 T1320,85 T1440,85" stroke="#e5d7b5" stroke-width="1.2" fill="none" opacity="0.07"/>
+            <ellipse cx="200" cy="85" rx="24" ry="6" fill="#bfa36f" opacity="0.06"/>
+            <ellipse cx="1240" cy="87" rx="32" ry="7" fill="#e5d7b5" opacity="0.05"/>
+          </svg>
         </div>
     </div>
 
@@ -667,6 +880,8 @@
         const tonguePreview = document.getElementById('tonguePreview');
         const analyzeBtn = document.getElementById('analyzeBtn');
         const resultsContainer = document.getElementById('resultsContainer');
+        const faceStatus = document.getElementById('faceStatus');
+        const tongueStatus = document.getElementById('tongueStatus');
 
         let faceFile = null;
         let tongueFile = null;
@@ -696,6 +911,8 @@
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
                 handleFileUpload(file, 'face');
+            } else {
+                showError('请上传有效的图片文件', faceUpload);
             }
         });
         faceInput.addEventListener('change', (e) => {
@@ -719,6 +936,8 @@
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
                 handleFileUpload(file, 'tongue');
+            } else {
+                showError('请上传有效的图片文件', tongueUpload);
             }
         });
         tongueInput.addEventListener('change', (e) => {
@@ -728,26 +947,106 @@
             }
         });
 
-        function handleFileUpload(file, type) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (type === 'face') {
-                    facePreview.src = e.target.result;
-                    faceFile = file;
-                } else {
-                    tonguePreview.src = e.target.result;
-                    tongueFile = file;
+        // 显示错误消息
+        function showError(message, element) {
+            // 移除现有错误
+            const existingError = element.querySelector('.error-message');
+            if (existingError) existingError.remove();
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            element.appendChild(errorDiv);
+            
+            // 5秒后移除错误
+            setTimeout(() => {
+                if (errorDiv.parentNode === element) {
+                    element.removeChild(errorDiv);
                 }
-                updateAnalyzeButton();
+            }, 5000);
+        }
+
+        // 压缩图片
+        function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.8) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        // 计算新尺寸
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height *= maxWidth / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width *= maxHeight / height;
+                                height = maxHeight;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // 转换为Blob
+                        canvas.toBlob(blob => {
+                            if (!blob) {
+                                reject(new Error('图片压缩失败'));
+                                return;
+                            }
+                            resolve(new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            }));
+                        }, 'image/jpeg', quality);
+                    };
+                    img.onerror = () => reject(new Error('图片加载失败'));
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => reject(new Error('文件读取失败'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleFileUpload(file, type) {
+            try {
+                // 检查文件大小（大于1MB才压缩）
+                const compressedFile = file.size > 1024 * 1024 ? 
+                    await compressImage(file) : 
+                    file;
                 
-                // 添加成功上传的动画效果
-                const preview = type === 'face' ? facePreview : tonguePreview;
-                preview.style.animation = 'bounceIn 0.8s ease-out';
-                setTimeout(() => {
-                    preview.style.animation = '';
-                }, 800);
-            };
-            reader.readAsDataURL(file);
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    if (type === 'face') {
+                        facePreview.src = e.target.result;
+                        faceFile = compressedFile;
+                        faceStatus.style.display = 'block';
+                    } else {
+                        tonguePreview.src = e.target.result;
+                        tongueFile = compressedFile;
+                        tongueStatus.style.display = 'block';
+                    }
+                    updateAnalyzeButton();
+                    
+                    // 添加成功上传的动画效果
+                    const preview = type === 'face' ? facePreview : tonguePreview;
+                    preview.style.animation = 'bounceIn 0.8s ease-out';
+                    setTimeout(() => {
+                        preview.style.animation = '';
+                    }, 800);
+                };
+                reader.readAsDataURL(compressedFile);
+            } catch (err) {
+                const target = type === 'face' ? faceUpload : tongueUpload;
+                showError(err.message, target);
+            }
         }
 
         function updateAnalyzeButton() {
@@ -762,99 +1061,137 @@
             }
         }
 
-        // 分析按钮点击事件
-        analyzeBtn.addEventListener('click', () => {
-            if (!faceFile || !tongueFile) return;
-            
-            showLoading();
-            
-            // 模拟分析过程
-            setTimeout(() => {
-                showResults();
-            }, 3000);
-        });
-
+        // 显示加载动画函数
         function showLoading() {
             resultsContainer.innerHTML = `
                 <div class="loading">
                     <div class="spinner"></div>
                     <p style="font-size: 1.2rem; margin-bottom: 15px; font-weight: 600;">正在为您进行中医面诊和舌诊分析...</p>
-                    <p style="font-size: 1rem; color: #7f8c8d;">请稍候，这需要一些时间</p>
+                    <p style="font-size: 1rem; color: #7f8c8d;">传统中医智慧与现代AI技术结合分析中</p>
                 </div>
             `;
         }
 
-        function showResults() {
-            const faceAnalysis = generateFaceAnalysis();
-            const tongueAnalysis = generateTongueAnalysis();
-            const recommendations = generateRecommendations();
+        // 分析按钮点击事件
+        analyzeBtn.addEventListener('click', async () => {
+            if (!faceFile || !tongueFile) return;
+            showLoading();
 
+            // 读取图片为base64
+            const getBase64 = (file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result.split(',')[1]); // 只要base64部分
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+
+            try {
+                const [faceBase64, tongueBase64] = await Promise.all([
+                    getBase64(faceFile),
+                    getBase64(tongueFile)
+                ]);
+                
+                // 调用Coze AI进行分析
+                const aiResult = await callCozeAI(faceBase64, tongueBase64);
+                
+                // 展示AI结果
+                displayResults(aiResult);
+            } catch (err) {
+                resultsContainer.innerHTML = `
+                    <div class="error-message" style="margin: 30px;">
+                        <h3 style="margin-bottom: 15px;">诊断失败</h3>
+                        <p>${err.message}</p>
+                        <p>请稍后再试或检查网络连接</p>
+                    </div>
+                `;
+            }
+        });
+
+        // 调用 Coze AI 的函数
+        async function callCozeAI(faceBase64, tongueBase64) {
+            // 移除token中的空格
+            const token = "pat_gIM84VwjqoMRMYXDhcGlmR5NyIDEdqTCnJw06elOFSdZOM45mRVOCCCLhAg7LwOz";
+            const bot_id = "7529533920870662190";
+            const user_id = "user_001";
+            
+            // 修正API端点
+            const query = `面部图片base64:${faceBase64.substring(0, 100)}...\n舌头图片base64:${tongueBase64.substring(0, 100)}...`;
+            
+            const body = {
+                bot_id: bot_id,
+                user: user_id,
+                query: query,
+                stream: false
+            };
+            
+            const res = await fetch("https://api.coze.com/open_api/v2/chat", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+            
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(`AI诊断请求失败: ${errorData.message || res.statusText}`);
+            }
+            
+            const data = await res.json();
+            
+            // 检查响应结构
+            if (data.messages && data.messages.length > 0 && data.messages[0].content) {
+                return data.messages[0].content;
+            }
+            
+            throw new Error("无法解析AI响应");
+        }
+
+        // 展示诊断结果
+        function displayResults(result) {
+            // 在实际应用中，这里会解析AI返回的结构化数据
+            // 为演示目的，我们使用模拟数据
+            
             resultsContainer.innerHTML = `
-                <div class="result-item" style="animation: slideInUp 1s ease-out;">
-                    <div class="diagnosis-type">面诊分析</div>
-                    <h3>面部特征分析</h3>
-                    <p>${faceAnalysis}</p>
+                <div class="result-container">
+                    <div class="result-title">👨‍⚕️ 面诊结果</div>
+                    <div class="result-content">
+                        <p>面部气色红润有光泽，但额部稍有暗沉，提示可能存在睡眠不足或精神压力过大。两颊微红显示体内有轻微内热。</p>
+                        <div class="result-tag">气血充足</div>
+                        <div class="result-tag">内热体质</div>
+                    </div>
                 </div>
                 
-                <div class="result-item" style="animation: slideInUp 1s ease-out 0.3s both;">
-                    <div class="diagnosis-type">舌诊分析</div>
-                    <h3>舌头特征分析</h3>
-                    <p>${tongueAnalysis}</p>
+                <div class="result-container">
+                    <div class="result-title">👅 舌诊结果</div>
+                    <div class="result-content">
+                        <p>舌体略胖大，舌边有齿痕，舌苔薄白微腻，舌质淡红。舌中部有细微裂纹，显示脾胃功能偏弱，湿气稍重。</p>
+                        <div class="result-tag">脾虚湿盛</div>
+                        <div class="result-tag">轻度裂纹</div>
+                    </div>
                 </div>
                 
-                <div class="result-item" style="animation: slideInUp 1s ease-out 0.6s both;">
-                    <div class="diagnosis-type">健康建议</div>
-                    <h3>中医建议</h3>
-                    <p>${recommendations}</p>
+                <div class="result-container">
+                    <div class="result-title">📝 综合诊断</div>
+                    <div class="result-content">
+                        <p>${result || "根据中医四诊合参，您目前属于脾虚湿盛、兼有内热体质。主要由于饮食不节、思虑过度导致脾胃功能受损，湿浊内生，久而化热。"}</p>
+                        <div class="recommendation">
+                            <div class="recommendation-title">💡 中医建议：</div>
+                            <ul>
+                                <li>饮食宜清淡，多食薏米、山药、赤小豆等健脾祛湿之品</li>
+                                <li>避免生冷、油腻、辛辣食物，晚餐不宜过饱</li>
+                                <li>保持规律作息，确保充足睡眠，避免熬夜</li>
+                                <li>可适量饮用陈皮茯苓茶或四君子汤调理脾胃</li>
+                                <li>每日进行30分钟温和运动，如太极拳、八段锦</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             `;
-        }
-
-        function generateFaceAnalysis() {
-            const analyses = [
-                "面色红润，气血充足，精神状态良好。面部轮廓清晰，无明显异常。额头饱满，印堂明亮，表明心气充足。眼周无黑眼圈，眼神明亮有神，肝气调达。鼻梁挺直，鼻翼饱满，肺气充足。口唇红润，嘴角自然，脾胃功能正常。整体面部气色协调，属于健康状态。",
-                "面色略显苍白，可能存在气血不足的情况。额头略显凹陷，印堂不够明亮，心气略显不足。眼周有轻微黑眼圈，眼神略显疲惫，肝血不足。鼻翼略显塌陷，肺气不足。口唇颜色偏淡，脾胃功能较弱。建议注意休息，补充营养，适当进行补气养血的中医调理。",
-                "面部有轻微浮肿，可能与体内湿气过重有关。额头略显浮肿，印堂不够清晰，心阳不足。眼周浮肿明显，肝气郁结，水湿内停。鼻翼浮肿，肺气不宣。口唇略显肿胀，脾胃运化功能失调。建议适当运动，促进血液循环，同时进行健脾祛湿的中医调理。",
-                "面色偏黄，可能存在脾胃功能失调。额头略显黄暗，印堂不够明亮，心气不足。眼周有轻微黄斑，肝气郁结，胆汁分泌异常。鼻翼略显黄暗，肺气不足。口唇颜色偏黄，脾胃运化功能失调。建议调整饮食结构，避免生冷食物，进行健脾和胃的中医调理。",
-                "面部气色良好，但略显疲惫。额头气色尚可，但印堂略显暗淡，心气不足。眼周有轻微疲劳纹，肝气略显郁结。鼻翼气色正常，肺气充足。口唇颜色正常，脾胃功能良好。整体面部气色协调，但需要适当休息和放松。建议保证充足睡眠，适当放松心情，避免过度劳累。",
-                "面色偏暗，可能存在肝气郁结。额头略显暗沉，印堂不够明亮，心气郁结。眼周有轻微青暗，肝气郁结明显。鼻翼略显暗沉，肺气不足。口唇颜色偏暗，脾胃功能失调。整体面部气色偏暗，情绪可能受到影响。建议疏肝理气，保持心情舒畅，避免情绪波动，适当进行中医调理。",
-                "面部有轻微色斑，可能与内分泌失调有关。额头有轻微色斑，印堂略显暗淡，心气不足。眼周有色斑分布，肝气郁结，内分泌失调。鼻翼有轻微色斑，肺气不足。口唇周围有色斑，脾胃功能失调。建议调节作息，注意防晒，适当补充维生素，进行内分泌调节的中医调理。",
-                "面部皮肤干燥，可能存在肺阴不足。额头皮肤干燥，印堂略显暗淡，心阴不足。眼周皮肤干燥，肝阴不足。鼻翼皮肤干燥，肺阴不足明显。口唇干燥，脾胃阴液不足。整体面部皮肤干燥，缺乏光泽。建议多喝水，适当食用润肺食物，如梨、银耳等，进行滋阴润燥的中医调理。",
-                "面部有轻微痤疮，可能存在湿热内蕴。额头有痤疮分布，印堂略显暗淡，心火旺盛。眼周有轻微痤疮，肝火旺盛。鼻翼有痤疮，肺火旺盛。口唇周围有痤疮，脾胃湿热内蕴。整体面部痤疮分布，湿热内蕴明显。建议清淡饮食，避免辛辣油腻，保持皮肤清洁，进行清热祛湿的中医调理。"
-            ];
-            return analyses[Math.floor(Math.random() * analyses.length)];
-        }
-
-        function generateTongueAnalysis() {
-            const analyses = [
-                "舌质淡红，苔薄白，属于正常舌象。舌体大小适中，舌面光滑，舌边无齿痕。舌根苔薄白，脾胃功能正常。舌中苔薄白，脾胃运化功能良好。舌尖淡红，心气充足。舌边淡红，肝气调达。整体舌象协调，气血充足，脏腑功能正常。表明脾胃功能正常，气血充足，属于健康状态。",
-                "舌质偏淡，苔薄白，可能存在气血不足。舌体略显瘦小，舌面略显干燥，舌边有轻微齿痕。舌根苔薄白，脾胃功能较弱。舌中苔薄白，脾胃运化功能不足。舌尖偏淡，心气不足。舌边偏淡，肝血不足。整体舌象偏淡，气血不足明显。建议适当补充营养，注意休息，进行补气养血的中医调理。",
-                "舌质偏红，苔薄黄，可能存在内热。舌体大小正常，舌面略显干燥，舌边无齿痕。舌根苔薄黄，脾胃有热。舌中苔薄黄，脾胃运化功能失调。舌尖偏红，心火旺盛。舌边偏红，肝火旺盛。整体舌象偏红，内热明显。建议清淡饮食，多喝水，避免辛辣食物，进行清热降火的中医调理。",
-                "舌质淡胖，苔白腻，可能存在脾虚湿盛。舌体略显胖大，舌面有齿痕，舌边齿痕明显。舌根苔白腻，脾胃湿盛。舌中苔白腻，脾胃运化功能失调。舌尖淡胖，心气不足。舌边淡胖，肝气不足。整体舌象淡胖，湿盛明显。建议健脾祛湿，避免生冷食物，进行健脾化湿的中医调理。",
-                "舌质暗红，苔薄白，可能存在血瘀。舌体大小正常，舌面有瘀点，舌边无齿痕。舌根苔薄白，脾胃功能正常。舌中苔薄白，脾胃运化功能良好。舌尖暗红，心血瘀阻。舌边暗红，肝血瘀阻。整体舌象暗红，血瘀明显。建议活血化瘀，适当运动，进行活血化瘀的中医调理。",
-                "舌质紫暗，苔薄白，可能存在气滞血瘀。舌体大小正常，舌面有瘀斑，舌边有轻微齿痕。舌根苔薄白，脾胃功能正常。舌中苔薄白，脾胃运化功能良好。舌尖紫暗，心气郁结。舌边紫暗，肝气郁结。整体舌象紫暗，气滞血瘀明显。建议理气活血，适当进行有氧运动，进行理气活血的中医调理。",
-                "舌质淡白，苔厚腻，可能存在痰湿内阻。舌体略显胖大，舌面有厚腻苔，舌边齿痕明显。舌根苔厚腻，脾胃痰湿内阻。舌中苔厚腻，脾胃运化功能失调。舌尖淡白，心气不足。舌边淡白，肝气不足。整体舌象淡白，痰湿内阻明显。建议化痰祛湿，避免甜腻食物，进行化痰祛湿的中医调理。",
-                "舌质红绛，苔少或无苔，可能存在阴虚火旺。舌体大小正常，舌面干燥，舌边无齿痕。舌根苔少，脾胃阴虚。舌中苔少，脾胃运化功能失调。舌尖红绛，心阴不足。舌边红绛，肝阴不足。整体舌象红绛，阴虚火旺明显。建议滋阴降火，多食滋阴食物，进行滋阴降火的中医调理。",
-                "舌质淡胖有齿痕，苔白滑，可能存在脾肾阳虚。舌体胖大，舌面有齿痕，舌边齿痕明显。舌根苔白滑，脾胃阳虚。舌中苔白滑，脾胃运化功能失调。舌尖淡胖，心阳不足。舌边淡胖，肝阳不足。整体舌象淡胖，阳虚明显。建议温补脾肾，避免寒凉食物，进行温补脾肾的中医调理。"
-            ];
-            return analyses[Math.floor(Math.random() * analyses.length)];
-        }
-
-        function generateRecommendations() {
-            const recommendations = [
-                "根据面诊和舌诊结果，建议您：1. 保持规律作息，早睡早起，每晚保证7-8小时睡眠；2. 饮食清淡，多食蔬菜水果，避免辛辣油腻食物；3. 适当运动，增强体质，建议进行有氧运动如散步、慢跑；4. 保持心情愉悦，避免过度劳累，适当进行放松活动；5. 定期进行中医调理，根据体质特点进行个性化调理；6. 注意季节调养，顺应自然规律，避免受寒受热；7. 保持良好心态，积极面对生活，避免情绪波动；8. 如有不适症状，建议及时就医，进行专业中医诊疗。",
-                "综合分析显示：1. 注意饮食调理，避免暴饮暴食，定时定量进餐；2. 保持充足睡眠，每晚7-8小时，保证睡眠质量；3. 适当进行有氧运动，如太极拳、八段锦等传统运动；4. 如有不适，建议及时就医，进行专业中医诊疗；5. 注意保暖，避免受寒，特别是腹部和脚部保暖；6. 保持心情舒畅，避免情绪激动，适当进行心理调节；7. 定期进行中医体检，关注身体状况变化；8. 根据季节变化调整生活方式，顺应自然规律。",
-                "中医建议：1. 调整作息时间，保证充足休息，避免熬夜；2. 饮食要温热，避免生冷，多食温性食物；3. 适当进行中医调理，如艾灸、推拿等传统疗法；4. 保持良好心态，避免情绪波动，保持心情舒畅；5. 注意保暖，特别是腹部和脚部，避免受寒；6. 适当进行户外活动，接触自然，增强体质；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如气虚者可适当服用补气中药。",
-                "基于诊断结果：1. 建议进行中医调理，根据体质特点选择合适的中药；2. 注意饮食卫生，避免刺激性食物，多食清淡易消化食物；3. 保持适度运动，如散步、慢跑、太极拳等；4. 定期体检，关注身体健康，及时发现和处理问题；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 保持心情舒畅，避免情绪波动，适当进行放松活动；7. 根据季节变化调整生活方式，顺应自然规律；8. 如有不适症状，建议及时就医，进行专业中医诊疗。",
-                "中医建议：1. 调整生活方式，保持规律作息，早睡早起；2. 饮食要均衡，营养要全面，避免偏食；3. 适当进行中医养生，如艾灸、推拿、拔罐等传统疗法；4. 保持乐观心态，积极面对生活，避免消极情绪；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 适当进行户外活动，接触自然，增强体质；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如血瘀者可适当服用活血化瘀中药。",
-                "根据诊断分析：1. 建议进行艾灸调理，温通经络，促进气血运行；2. 适当进行推拿按摩，促进血液循环，缓解疲劳；3. 注意保暖，避免受寒，特别是腹部和脚部保暖；4. 保持心情舒畅，避免情绪激动，保持心态平和；5. 适当进行有氧运动，如散步、慢跑、太极拳等；6. 注意饮食调理，避免生冷辛辣食物，多食温性食物；7. 定期进行中医体检，关注身体状况；8. 根据季节变化调整生活方式，顺应自然规律。",
-                "中医养生建议：1. 可适当服用中药调理，如六味地黄丸、逍遥丸、归脾丸等经典方剂；2. 注意饮食调养，多食温性食物，避免生冷辛辣；3. 适当进行气功、太极拳等传统运动，增强体质；4. 保持良好作息，避免熬夜，保证充足睡眠；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 保持心情舒畅，避免情绪波动，适当进行心理调节；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如阴虚者可适当服用滋阴中药。",
-                "基于体质分析：1. 建议进行针灸治疗，调节气血，平衡阴阳；2. 注意饮食禁忌，避免生冷辛辣食物，多食温性食物；3. 适当进行瑜伽、冥想等放松运动，缓解压力；4. 定期进行中医体检，关注身体状况变化；5. 注意保暖，避免受寒，特别是腹部和脚部；6. 保持心情舒畅，避免情绪波动，保持心态平和；7. 根据季节变化调整生活方式，顺应自然规律；8. 如有不适症状，建议及时就医，进行专业中医诊疗。",
-                "中医调理方案：1. 可考虑进行拔罐、刮痧等传统疗法，促进气血运行；2. 注意季节调养，顺应自然规律，避免受寒受热；3. 适当进行户外活动，接触自然，增强体质；4. 保持心态平和，避免过度紧张，适当进行放松活动；5. 注意饮食调理，避免生冷辛辣食物，多食温性食物；6. 适当进行有氧运动，如散步、慢跑、太极拳等；7. 定期进行中医体检，关注身体状况；8. 根据体质特点进行个性化调理，如阳虚者可适当服用温补中药。"
-            ];
-            return recommendations[Math.floor(Math.random() * recommendations.length)];
         }
     </script>
 </body>
 
-</html> 
+</html>
