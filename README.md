@@ -1,2 +1,2 @@
-# chinese-medical-websize
+# chinese-medical-website
 中医诊断网站
